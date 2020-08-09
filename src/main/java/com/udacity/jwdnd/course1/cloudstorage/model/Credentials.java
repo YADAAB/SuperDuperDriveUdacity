@@ -5,15 +5,36 @@ public class Credentials {
     private Integer credentialId;
     private String url;
     private String credUserName;
+    private String key;
     private String credPassword;
-    private String userId;
-
-    public Credentials(Integer credentialId, String url, String credUserName, String credPassword, String userId) {
+    private Integer userId;
+//new Credentials(null, url, credUserName, hashedPassword, userId)
+    public Credentials(Integer credentialId, String url, String credUserName, String key, String credPassword, Integer userId) {
+        System.out.println("Inside Credentials Const..");
         this.credentialId = credentialId;
         this.url = url;
         this.credUserName = credUserName;
+        this.key = key;
         this.credPassword = credPassword;
         this.userId = userId;
+    }
+
+    /*
+    credentialid
+    url VARCHAR(100),
+    username VARCHAR (30),
+    key VARCHAR,
+    password VARCHAR,
+    userid INT,
+    * */
+
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public Integer getCredentialId() {
@@ -48,27 +69,14 @@ public class Credentials {
         this.credPassword = credPassword;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
 
 
 }
-
-/*
-*
-CREATE TABLE IF NOT EXISTS CREDENTIALS (
-    credentialid INT PRIMARY KEY auto_increment,
-    url VARCHAR(100),
-    username VARCHAR (30),
-    key VARCHAR,
-    password VARCHAR,
-    userid INT,
-    foreign key (userid) references USERS(userid)
-);
-* */

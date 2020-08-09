@@ -11,11 +11,9 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
             <div id="logoutDiv">
-               <!--
-                <form action="#" method="POST">
+                <form action="#" method="POST" th:action="@{/logout}">
                     <button type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
-                -->
             </div>
             <div id="contentDiv" style="clear: right;">
                 <nav style="clear: right;">
@@ -126,7 +124,6 @@
                             </div>
                         </div>
                     </div>
-                    -->
                     <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
                         <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
                             + Add a New Credential
@@ -143,19 +140,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="usercredential : ${usercredentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success">Edit</button>
-                                        <a class="btn btn-danger">Delete</a>
+                                        <!-- <button type="button" class="btn btn-success" onclick="showEditCredentialModal()">Edit</button> -->
+                                        <!-- <form th:action="@{/credentialUpdateToEdit}" th:object="${usercredential}"> -->
+                                        <form th:action="@{/credentialUpdateToEdit}" th:object="${usercredential}" method="POST">
+                                            <input type="hidden" name="credentialId" th:value="${usercredential.credentialId}">
+                                            <input type="hidden" name="url" th:value="${usercredential.url}">
+                                            <input type="hidden" name="credUserName" th:value="${usercredential.credUserName}">
+                                            <input type="hidden" name="credPassword" th:value="${usercredential.credPassword}">
+                                            <button type="submit">Edit</button>
+                                        </form>
+                                        <a class="btn btn-danger" th:href="@{/credential/delete/{credentialId}(credentialId=${usercredential.credentialId})}">Delete</a>
+                                        <!-- <a th:href="@{/delete_credential(credentialId=${usercredential.credentialId})}" class="btn btn-danger">Delete</a> -->
                                     </td>
-                                    <th scope="row">Example Credential URL</th>
-                                    <td>Example Credential Username</td>
-                                    <td>Example Credential Password</td>
+                                    <td th:text="${usercredential.url}">1</td>
+                                    <td th:text="${usercredential.credUserName}">John</td>
+                                    <td th:text="${usercredential.credPassword}">Doe</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-
                         <div class="modal fade" id="credentialModal" tabindex="-1" role="dialog" aria-labelledby="credentialModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -166,7 +171,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST" th:object="${credentialdata}" th:action="@{/credentialupload}">
+                                        <form action="#" method="POST" th:object="${credentialdata}" th:action="@{/home}">
                                          <!-- <form action="#"  th:object="${chatform}" method="POST" th:action="@{/chat}"> -->
                                             <input type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
@@ -175,16 +180,13 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Username</label>
-                                                <input type="text" name= "username" class="form-control" id="credential-username" maxlength="30" required>
+                                                <input type="text" name= "credUserName" class="form-control" id="credential-username" maxlength="30" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Password</label>
-                                                <input type="text" name= "password" class="form-control" id="credential-password" maxlength="30" required>
+                                                <input type="text" name= "credPassword" class="form-control" id="credential-password" maxlength="30" required>
                                             </div>
                                             <button id="credentialSubmit" type="submit" class="d-none"></button>
-                                            <div th:each="usercredential : ${usercredentials}">
-                                                <span class="usercrednetialurl" th:text="${usercredential.url}">URL</span>: <span class="usercredentialusername" th:text="${usercredential.username}">Hello, world!</span>
-                                            </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -220,6 +222,14 @@
                 $('#credential-username').val(username ? username : '');
                 $('#credential-password').val(password ? password : '');
                 $('#credentialModal').modal('show');
+            }
+            // For opening the edit credentials modal
+            function showEditCredentialModal(credentialId, url, username, password) {
+                $('#credential-id').val(credentialId ? credentialId : '');
+                $('#credential-url').val(url ? url : '');
+                $('#credential-username').val(username ? username : '');
+                $('#credential-password').val(password ? password : '');
+                $('#credentialEditModal').modal('show');
             }
         </script>
     </body>
