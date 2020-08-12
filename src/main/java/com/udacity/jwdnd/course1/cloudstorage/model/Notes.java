@@ -6,6 +6,13 @@ public class Notes {
     private String noteDescription;
     private Integer userId;
 
+    public Notes(Integer noteId, String noteTitle, String noteDescription, Integer userId) {
+        this.noteId = noteId;
+        this.noteTitle = noteTitle;
+        this.noteDescription = noteDescription;
+        this.userId = userId;
+    }
+
     public Integer getNoteId() {
         return noteId;
     }

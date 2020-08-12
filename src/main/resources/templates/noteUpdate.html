@@ -1,0 +1,13 @@
+<meta charset="ISO-8859-1">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+<title>note Update</title>
+
+<div>
+    <form th:action="@{/noteUpdate}" th:object="${notes}" method="post">
+        <input type="text" name="noteTitle" th:value="${notes.noteTitle}">
+        <input type="text" name="noteDescription" th:value="${notes.noteDescription}">
+        <input type="text" name="userId" th:value="${notes.userId}">
+        <button type="submit">Update</button>
+    </form>
+</div>

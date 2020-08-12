@@ -33,14 +33,11 @@ public class CredentialService {
         byte[] salt = new byte[16];
         random.nextBytes(salt);
         String encodedSalt = Base64.getEncoder().encodeToString(salt);
-        //HashService hashService;
         String hashedPassword = this.hashService.getHashedValue(credPassword, encodedSalt);
         System.out.println("userId "+userMapper.getUserName(username).getUserId());
         return credentialMapper.insertCredentials(new Credentials(null, url, credUserName, new String("key-1234"), hashedPassword, userMapper.getUserName(username).getUserId()));
         //return credentialMapper.insertCredentials(new Credentials(null, url, credUserName, new String("key-1234"),hashedPassword,userMapper.getUserName(username).getUserId()));
     }
-
-
 
     public List<Credentials> getCredentials(Integer userId)
     {
